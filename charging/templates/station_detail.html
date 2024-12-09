@@ -1,0 +1,45 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2>{{ station.name }}</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Station Details</h4>
+                            <p><strong>Address:</strong> {{ station.address }}</p>
+                            <p><strong>Connector Type:</strong> {{ station.get_connector_type_display }}</p>
+                            <p><strong>Total Charging Points:</strong> {{ station.total_charging_points }}</p>
+                            <p><strong>Available Charging Points:</strong> {{ station.available_charging_points }}</p>
+                            <p>
+                                <strong>Status:</strong> 
+                                {% if station.is_operational %}
+                                    <span class="badge bg-success">Operational</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Not Operational</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Location</h4>
+                            <p><strong>Latitude:</strong> {{ station.latitude }}</p>
+                            <p><strong>Longitude:</strong> {{ station.longitude }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'station_update' station.pk %}" class="btn btn-warning">Edit Station</a>
+                    <a href="{% url 'station_delete' station.pk %}" class="btn btn-danger">Delete Station</a>
+                    <a href="{% url 'station_list' %}" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

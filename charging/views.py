@@ -1,18 +1,56 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
+from django.contrib.auth import login
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import ChargingStation
+from .forms import ChargingStationForm, UserRegistrationForm
 
 def home(request):
-    return render(request, 'charging/home.html')  # Render the homepage
+    """Homepage view"""
+    return render(request, 'home.html')
 
+def station_list(request):
+    """List all charging stations"""
+    stations = ChargingStation.objects.all()
+    return render(request, 'station_list.html', {'stations': stations})
 
-# charging/views.py
+def station_detail(request, pk):
+    """Detail view for a specific charging station"""
+    station = get_object_or_404(ChargingStation, pk=pk)
+    return render(request, 'station_detail.html', {'station': station})
 
-from django.shortcuts import render, redirect
-from .forms import UserRegistrationForm
-from django.contrib.auth.models import User
-from django.contrib.auth import login
+def station_create(request):
+    """Create a new charging station"""
+    if request.method == 'POST':
+        form = ChargingStationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Charging station created successfully!')
+            return redirect('station_list')
+    else:
+        form = ChargingStationForm()
+    return render(request, 'station_form.html', {'form': form})
+
+def station_update(request, pk):
+    """Update an existing charging station"""
+    station = get_object_or_404(ChargingStation, pk=pk)
+    if request.method == 'POST':
+        form = ChargingStationForm(request.POST, instance=station)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Charging station updated successfully!')
+            return redirect('station_list')
+    else:
+        form = ChargingStationForm(instance=station)
+    return render(request, 'station_form.html', {'form': form})
+
+def station_delete(request, pk):
+    """Delete a charging station"""
+    station = get_object_or_404(ChargingStation, pk=pk)
+    if request.method == 'POST':
+        station.delete()
+        messages.success(request, 'Charging station deleted successfully!')
+        return redirect('station_list')
+    return render(request, 'station_confirm_delete.html', {'station': station})
 
 def register(request):
     if request.method == 'POST':
@@ -27,35 +65,3 @@ def register(request):
         form = UserRegistrationForm()
 
     return render(request, 'register.html', {'form': form})
-
-
-from django.shortcuts import render
-
-def index(request):
-    return render(request, 'index.html')  # Or another template of your choice
-
-from django.shortcuts import render
-
-def stations_list(request):
-    # Dummy data for now
-    stations = [
-        {'name': 'Station A', 'location': 'City Center'},
-        {'name': 'Station B', 'location': 'Highway Exit'},
-        {'name': 'Station C', 'location': 'Suburban Area'},
-    ]
-    return render(request, 'stations_list.html', {'stations': stations})
-
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from .forms import StationForm
-
-def add_station(request):
-    if request.method == "POST":
-        form = StationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('stations_list')  # Redirect to the stations list after adding a station
-    else:
-        form = StationForm()
-    return render(request, 'add_station.html', {'form': form})
-

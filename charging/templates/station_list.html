@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Electric Charging Stations</h1>
+    
+    <a href="{% url 'station_create' %}" class="btn btn-primary mb-3">
+        Add New Charging Station
+    </a>
+
+    <div class="row">
+        {% for station in stations %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ station.name }}</h5>
+                    <p class="card-text">
+                        <strong>Address:</strong> {{ station.address }}<br>
+                        <strong>Connector Type:</strong> {{ station.get_connector_type_display }}<br>
+                        <strong>Available Points:</strong> {{ station.available_charging_points }}/{{ station.total_charging_points }}
+                    </p>
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'station_detail' station.pk %}" class="btn btn-info btn-sm">View</a>
+                        <a href="{% url 'station_update' station.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'station_delete' station.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No charging stations found.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

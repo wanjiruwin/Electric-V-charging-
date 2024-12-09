@@ -1,0 +1,33 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h2>Confirm Station Deletion</h2>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Are you sure you want to delete the following charging station?</p>
+                    <div class="alert alert-warning">
+                        <strong>Station Name:</strong> {{ station.name }}<br>
+                        <strong>Address:</strong> {{ station.address }}<br>
+                        <strong>Connector Type:</strong> {{ station.get_connector_type_display }}
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'station_list' %}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash-alt me-2"></i>Confirm Delete
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,32 +1,28 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
+from django.core.validators import MinValueValidator
 
 class ChargingStation(models.Model):
-    name = models.CharField(max_length=100)
-    location = models.CharField(max_length=100)
-    status = models.CharField(max_length=50, choices=[('Available', 'Available'), ('Occupied', 'Occupied'), ('Under Maintenance', 'Under Maintenance')])
-    image = models.ImageField(upload_to='stations/', blank=True, null=True)
-
+    name = models.CharField(max_length=200)
+    address = models.CharField(max_length=300)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    total_charging_points = models.IntegerField(validators=[MinValueValidator(1)])
+    available_charging_points = models.IntegerField(validators=[MinValueValidator(0)])
+    is_operational = models.BooleanField(default=True)
+    
+    # Connector type choices
+    CONNECTOR_CHOICES = [
+        ('Type1', 'Type 1 (SAE J1772)'),
+        ('Type2', 'Type 2 (Mennekes)'),
+        ('CCS', 'Combined Charging System (CCS)'),
+        ('CHAdeMO', 'CHAdeMO'),
+        ('Tesla', 'Tesla Connector'),
+    ]
+    connector_type = models.CharField(
+        max_length=20, 
+        choices=CONNECTOR_CHOICES, 
+        default='Type2'
+    )
+    
     def __str__(self):
-        return self.name
-
-from django.contrib.auth.models import User
-
-# Replace 'your_admin_username' with your actual admin username
-user = User.objects.get(username='evadmin')
-
-# Set a new password (replace 'new_password' with your desired password)
-user.set_password('@shee123')
-user.save()
-
-from django.db import models
-
-class Station(models.Model):
-    name = models.CharField(max_length=100)
-    location = models.CharField(max_length=255)
-    capacity = models.IntegerField()
-
-    def __str__(self):
-        return self.name
+        return f"{self.name} - {self.address}"

@@ -1,11 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EV STATIONS</title>
-</head>
-<body>
-    <H1>Welcome to ev stations</H1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid px-0">
+    <!-- Hero Section -->
+    <div class="hero-section text-center text-white position-relative">
+        <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100"></div>
+        <div class="container position-relative py-5">
+            <h1 class="display-4 fw-bold mb-4">Electric Vehicle Charging Network</h1>
+            <p class="lead mb-4">Connecting you to a greener future, one charge at a time</p>
+            <a href="{% url 'station_list' %}" class="btn btn-primary btn-lg">Find Charging Stations</a>
+        </div>
+    </div>
+
+    <!-- About Us Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="mb-4">About Our EV Charging Network</h2>
+                    <p class="lead">We are committed to making electric vehicle charging accessible, convenient, and sustainable. Our network spans multiple locations, offering reliable charging solutions for electric vehicle owners.</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">✓ Extensive Network of Charging Stations</li>
+                        <li class="mb-2">✓ Multiple Connector Types</li>
+                        <li class="mb-2">✓ Real-Time Availability Updates</li>
+                        <li class="mb-2">✓ Easy Station Locator</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-image-container">
+                        <img src="/api/placeholder/600/400" class="img-fluid rounded shadow" alt="EV Charging Station">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Our Features</h2>
+            <div class="row">
+                <div class="col-md-4 text-center mb-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-map-marker-alt fa-3x text-primary"></i>
+                    </div>
+                    <h3>Easy Locator</h3>
+                    <p>Find charging stations near you with our intuitive map interface.</p>
+                </div>
+                <div class="col-md-4 text-center mb-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-plug fa-3x text-primary"></i>
+                    </div>
+                    <h3>Multiple Connectors</h3>
+                    <p>Support for various connector types to suit different electric vehicles.</p>
+                </div>
+                <div class="col-md-4 text-center mb-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-charging-station fa-3x text-primary"></i>
+                    </div>
+                    <h3>Real-Time Updates</h3>
+                    <p>Check station availability and status in real-time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+    .hero-section {
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/api/placeholder/1920/1080');
+        background-size: cover;
+        background-position: center;
+        height: 500px;
+        display: flex;
+        align-items: center;
+    }
+    .hero-overlay {
+        background-color: rgba(0,0,0,0.5);
+    }
+    .feature-icon {
+        color: #007bff;
+    }
+</style>
+{% endblock %}
